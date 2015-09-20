@@ -17,6 +17,10 @@ var CommentBox = React.createClass({
     return {data: []};
   },
   componentDidMount: function() {
+    this.loadCommentsFromServer();
+    setInterval(this.loadCommentsFromServer, this.props.pollInterval);
+  },
+  loadCommentsFromServer: function() {
     $.ajax({
       url: this.props.url,
       dataType: 'json',
@@ -68,7 +72,7 @@ var CommentForm = React.createClass({
 });
 
 React.render(
-  <CommentBox url="data/comments.json" />,
+  <CommentBox url="data/comments.json" pollInterval={2000} />,
   document.getElementById('content')
 );
 
